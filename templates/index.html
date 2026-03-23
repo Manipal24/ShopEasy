@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>ShopEasy</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            background: #ff6600;
+            padding: 15px 20px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h1 {
+            margin: 0;
+        }
+
+        .cart-btn {
+            background: white;
+            color: #ff6600;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .products {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            width: 200px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .card .emoji {
+            font-size: 50px;
+        }
+
+        .card h3 {
+            margin: 10px 0 5px;
+        }
+
+        .card .price {
+            color: green;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .card .category {
+            color: gray;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        .add-btn {
+            background: #ff6600;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 14px;
+        }
+
+        .add-btn:hover {
+            background: #e55500;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="navbar">
+        <h1>🛒 ShopEasy</h1>
+        <div>
+            <a href="/orders"><button class="cart-btn" style="margin-right:10px;">📦 Orders</button></a>
+            <a href="/cart"><button class="cart-btn">🛒 Cart</button></a>
+        </div>
+    </div>
+
+    <div class="products">
+        {% for product in products %}
+        <div class="card">
+            <div class="emoji">{{ product.image }}</div>
+            <h3>{{ product.name }}</h3>
+            <div class="category">{{ product.category }}</div>
+            <div class="price">₹{{ product.price }}</div>
+            <button class="add-btn" onclick="addToCart({{ product.id }}, '{{ product.name }}', {{ product.price }})">
+                Add to Cart
+            </button>
+        </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        function addToCart(id, name, price) {
+            fetch('/add-to-cart', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id, name, price })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    alert(data.message);
+                });
+        }
+    </script>
+
+</body>
+
+</html>

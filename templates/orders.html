@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>My Orders - ShopEasy</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f5f5f5;
+            margin: 0;
+        }
+
+        .navbar {
+            background: #ff6600;
+            padding: 15px 20px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h1 {
+            margin: 0;
+        }
+
+        .back-btn {
+            background: white;
+            color: #ff6600;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .container {
+            padding: 20px;
+            max-width: 600px;
+            margin: auto;
+        }
+
+        .empty {
+            text-align: center;
+            margin-top: 50px;
+            color: gray;
+            font-size: 20px;
+        }
+
+        .order-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .order-id {
+            color: gray;
+            font-size: 13px;
+        }
+
+        .order-date {
+            color: gray;
+            font-size: 13px;
+        }
+
+        .order-status {
+            color: green;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .order-total {
+            text-align: right;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #ff6600;
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="navbar">
+        <h1>📦 My Orders</h1>
+        <a href="/"><button class="back-btn">← Shop</button></a>
+    </div>
+
+    <div class="container">
+        {% if orders %}
+        {% for order in orders %}
+        <div class="order-card">
+            <div class="order-header">
+                <span class="order-id">Order #{{ order.id }}</span>
+                <span class="order-date">{{ order.date }}</span>
+            </div>
+            <div class="order-status">{{ order.status }}</div>
+            <hr>
+            {% for item in order.products %}
+            <div class="order-item">
+                <span>{{ item.name }} x{{ item.qty }}</span>
+                <span>₹{{ item.price * item.qty }}</span>
+            </div>
+            {% endfor %}
+            <div class="order-total">Total: ₹{{ order.total }}</div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="empty">
+            <p>📦 No orders yet!</p>
+            <a href="/"><button
+                    style="background:#ff6600; color:white; border:none; padding:10px 20px; border-radius:5px; cursor:pointer; font-size:16px;">Shop
+                    Now</button></a>
+        </div>
+        {% endif %}
+    </div>
+
+</body>
+
+</html>
